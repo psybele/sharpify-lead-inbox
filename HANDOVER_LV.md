@@ -1,7 +1,8 @@
-# Lead Inbox — īsais nodošanas apraksts
+# Lead Inbox — nodošanas apraksts
 
-Sveiki! Nosūtu Lead Inbox praktisko uzdevumu.
+Sveiki! Nosūtu izstrādāto Lead Inbox praktisko uzdevumu. Demonstrāciju iesaku sākt ar pārdevēja inbox, bet formu atvērt otrā cilnē, lai redzētu jauna pieteikuma apstrādi.
 
+- Demonstrācija un aktuālais savienojumu statuss: https://sharpify-lead-inbox-psybele.vercel.app/demo
 - Forma: https://sharpify-lead-inbox-psybele.vercel.app/
 - Pārdevēja inbox: https://sharpify-lead-inbox-psybele.vercel.app/inbox
 - PIN: nosūtāms vērtētājiem atsevišķi.
@@ -9,9 +10,13 @@ Sveiki! Nosūtu Lead Inbox praktisko uzdevumu.
 - Kods: https://github.com/psybele/sharpify-lead-inbox
 - Pilns pirmkods: https://sharpify-lead-inbox-psybele.vercel.app/lead-inbox-source.zip
 
-Ir visi prasītie formas lauki, pastāvīga datubāze, PIN aizsargāts inbox ar četriem statusiem un AI vērtējums “Karsts / Silts / Auksts” ar iemeslu. Papildus pievienoju zvana pogu, līda vecumu, meklēšanu, filtrus, sarunas sākuma teikumu, piezīmes, mobilo sānu izvēlni un klienta e-pasta apstiprinājumu.
+Formā ir visi septiņi prasītie lauki. Pieteikums vispirms saglabājas datubāzē, pēc tam saņem AI vērtējumu “Karsts / Silts / Auksts” ar vienu pamatojuma teikumu. PIN aizsargātajā inbox jaunākie līdi ir augšā, saraksts atjaunojas ik pēc piecām sekundēm, un var mainīt visus četrus prasītos statusus. Paziņojumi nonāk Telegram grupā un pārdevēja e-pastā; klients saņem atsevišķu pieteikuma apstiprinājumu.
 
-Izmantoju React/TypeScript, Vercel, Cloudflare Workers/D1, Groq AI, Telegram un Resend. Grūtākais bija savienot ārējos servisus tā, lai kļūmes nepazaudē pieteikumu un neveiksmīgo apstrādi var atkārtot. Gala pārbaudē Telegram pieņēma līda ziņu aptuveni sekundē; klienta apstiprinājumu Resend pieņēma 0,427 sekundēs. Tas ir viena testa rezultāts.
+Papildus pievienoju zvana pogu, līda vecumu, meklēšanu, filtrus, prioritāšu kārtošanu, AI sarunas sākuma jautājumu un saglabājamas piezīmes. Telefonā pieejama sānu izvēlne ar tiem pašiem statusiem un savienojumiem. Sākuma skatā ir trīs skaidri marķēti DEMO līdi ar iepriekš iegūtiem īstiem AI vērtējumiem; vecie pārbaudes ieraksti saglabāti atjaunojamā arhīvā.
+
+Izmantoju React/TypeScript, Vercel, Cloudflare Workers/D1, Groq AI, Telegram un Resend. D1 izvēlējos noturīgai glabāšanai, savukārt Groq — AI novērtēšanai ar pieejamo bezmaksas kvotu. Grūtākais bija nodrošināt, lai ārējo servisu kļūmes nepazaudē pieteikumu un neveiksmīgo apstrādi var atkārtot. Gala pārbaudē Telegram pieņēma līda ziņu 1,046 sekundēs; klienta apstiprinājumu Resend pieņēma 0,427 sekundēs. Tie ir viena testa rezultāti, nevis piegādes garantija.
+
+Iziet 60 automātiskie testi, TypeScript pārbaude un produkcijas build. Pilnais pirmkods, migrācijas, testi un VS Code palaišanas instrukcijas ir pieejami GitHub un ZIP arhīvā.
 
 Izstrādes laiks: [projekta autors ieraksta faktisko stundu skaitu — uzdevumā tas ir prasīts].
 

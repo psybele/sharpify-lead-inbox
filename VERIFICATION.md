@@ -41,7 +41,7 @@ E-pasta iestatījumi tika saglabāti jau pēc šā sākotnējā testa līda iesn
 
 ## Automātiskā pārbaude
 
-Pārbaudītajam risinājumam iziet 55 testi, TypeScript pārbaude un produkcijas build. Komandas:
+Pārbaudītajam risinājumam iziet 60 testi, TypeScript pārbaude un produkcijas build. Komandas:
 
 ```bash
 npm test
@@ -101,3 +101,13 @@ Ar publisko Vercel API iesniegts marķēts QA pieteikums `721a07ac-95c6-469d-8d2
 | Klienta apstiprinājums | Resend pieņēma atsevišķu apstiprinājumu 0,427 s pēc saglabāšanas; sūtītāja domēns `lead.psybele.com`. |
 
 Klienta fāzei saglabāts atsevišķs Resend ziņas ID un `sent` stāvoklis. Šie laiki ir viena testa novērojumi, nevis SLA; API pieņemšana neapliecina nonākšanu cilvēka iesūtnē vai izlasīšanu. Agrākā QA adreses `example.com` sūtījuma kļūda netiek uzdota par veiksmīgu piegādi; jaunā pārbaude izmanto paredzētu testa saņēmēju.
+
+## Sakopts demonstrācijas inbox un atjaunojams arhīvs
+
+Demonstrācijas sākuma skatā atstāti trīs esoši pieteikumi ar izdomātiem kontaktiem un īstiem, iepriekš iegūtiem Groq vērtējumiem: Karsts, Silts un Auksts. Prezentācijas nosaukumi un DEMO atzīmes ir atsevišķi metadati; sākotnējais mērķis, kontakti, AI atbilde, izveides laiks un piegādes vēsture nav pārrakstīti. Jaunās formas iesniegumi saglabājas parasti un parādās virs demonstrācijas piemēriem.
+
+Divpadsmit agrākie pārbaudes ieraksti pārvietoti PIN aizsargātā arhīvā. Atverot ieraksta detaļas, to var atjaunot inbox. Datu fiziska dzēšana nav veikta. Arhivēts ieraksts nepalaiž gaidošos ārējos darbus; jau pieņemtie paziņojumi netiek sūtīti vēlreiz. Migrācija: `drizzle/0003_fantastic_blizzard.sql`.
+
+Pieci jaunie testi pārbauda autorizāciju un publiskas metadatu viltošanas bloķēšanu, datu saglabāšanu arhivējot/atjaunojot, gaidošo darbu un atkārtotas iesniegšanas uzvedību, aktīvas apstrādes aizsardzību un jaunu pieteikumu atdalīšanu no sakopšanas. Pārlūkā ar izolētiem datiem pārbaudīta arhivēšana un atjaunošana datora un 390 px telefona skatā, skaitītāji, DEMO atzīmes un mobilās izvēlnes aizvēršana pēc navigācijas. Pagaidu pārbaudes lapas izņemtas no publicējamā pirmkoda.
+
+![Inbox saskarnes pārbaude ar izolētiem DEMO datiem; attēls nav dzīvo kontaktu eksports](demo-inbox-v16.jpg)
