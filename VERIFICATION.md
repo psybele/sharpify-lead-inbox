@@ -37,11 +37,11 @@ Zvana URI un mobilais panelis ir pārbaudīti. Attālinātā pārlūka protokola
 
 Publiski iesniegtā QA līda ID: `deeff6d9-8b5a-4666-b6f4-dc158a6e7f1c`. Nosaukums: `QA nodošana 19.11`; izmantoti izdomāti kontakti. Pēc pārbaudes statuss ir `Nav aktuāls` un pievienota piezīme nesazināties.
 
-E-pasta iestatījumi tika saglabāti jau pēc šā testa līda iesniegšanas. Pēc tam ar to pašu līdu pārbaudīta e-pasta atkārtošana: Resend atgrieza pieņemtas ziņas ID. AI un Telegram netika sūtīti atkārtoti. Šis e-pasta tests nav sākotnējā iesnieguma ātruma mērījums. E-pasts izmanto Resend testa sūtītāju, tādēļ saņēmējs ir ierobežots ar Resend konta adresi; sūtīšanai uz citām adresēm jāapstiprina savs domēns.
+E-pasta iestatījumi tika saglabāti jau pēc šā sākotnējā testa līda iesniegšanas. Pēc tam ar to pašu līdu pārbaudīta e-pasta atkārtošana: Resend atgrieza pieņemtas ziņas ID. AI un Telegram netika sūtīti atkārtoti. Šis e-pasta tests nav sākotnējā iesnieguma ātruma mērījums. Toreiz tika izmantots Resend testa sūtītājs. Vēlāk pieslēgts sūtītājs no `lead.psybele.com`; aktuālā gala pārbaude ir aprakstīta tālāk.
 
 ## Automātiskā pārbaude
 
-Pārbaudītajam risinājumam iziet 47 testi, TypeScript pārbaude un produkcijas build. Komandas:
+Pārbaudītajam risinājumam iziet 55 testi, TypeScript pārbaude un produkcijas build. Komandas:
 
 ```bash
 npm test
@@ -63,12 +63,41 @@ Testi ietver autorizāciju, PIN minēšanas limitu, saglabāšanu, statusus un p
 
 Publiskā adrese ir Vercel, bet noturīgie dati un ārējā apstrāde ir esošajā Cloudflare serverī. API vārteja saglabā HttpOnly sesijas cookie, bloķē citas izcelsmes rakstīšanas pieprasījumus, neļauj patvaļīgu pārsūtīšanas galamērķi, ierobežo saturu un nekešo privātas atbildes. Ar HMAC parakstītais konteksts ir piesaistīts konkrētam pieprasījumam; Worker ignorētam vai viltotam parakstam neuzticas. Papildu testi pārbauda atsevišķus PIN limitus klientiem un Vercel adresi paziņojumos. Parakstīta pierakstīšanās papildus pārbaudīta īstajā Workers izpildvidē.
 
-## Pilnā Vercel pārbaude pēc publicēšanas
+## Klienta e-pasta apstiprinājums
 
-Jauns QA līds iesniegts publiskajā Vercel formā: `737bedf5-c282-4f3f-8305-a2bca911320e` (`QA Vercel nodošana`). AI `Karsts` saglabāts 431 ms pēc izveides serverī, Telegram pieņēma ziņu 625 ms un Resend e-pastu 654 ms pēc izveides. Servera inbox atgrieza šo līdu kā jaunāko; pēc atsevišķām izmaiņām atkārtoti nolasīti visi 4 statusi un saglabāta piezīme. Pēc pārbaudes QA līds atzīmēts `Nav aktuāls`. Jaunā Vercel adrese atveras bez Vercel/ChatGPT konta; privātais inbox prasa lietotnes PIN. Servisu pieņemšanas laiki nav pierādījums ziņas izlasīšanai vai e-pasta nonākšanai iesūtnē.
+Jaunā apstiprinājuma kods un migrācija ir iekļauti. Ziņa sākas paralēli AI, ietver tikai neitrālu apstiprinājumu un pieteikuma numuru; AI vērtējumu, piezīmes, PIN vai inbox saiti klientam nesūta. Fāzei ir savs stāvoklis, Resend ziņas ID, laiks un stabila idempotences atslēga. Veiksmīgu fāzi atkārtoti nesūta. Vēsturiskiem ierakstiem migrācija piešķir `disabled`; arī atkārtošanas poga tos neaktivizē. Vienai saņēmēja adresei ierobežo 3 mēģinājumus stundā, bet līdu saglabā arī pēc limita sasniegšanas.
 
-## Klienta apstiprinājuma papildinājums — versija 10
+Jaunie testi pārbauda atsevišķos saņēmējus, AI neatkarību, klienta ziņas saturu, Resend testa domēna ierobežojumu, kļūmju atkārtošanu, vēsturiskos līdus un saņēmēja kvotu. Īstā Workers izpildvides testā jaunais līds izraisa atsevišķus pārdevēja un klienta sūtījumus ar simulētu Resend. Tas pats par sevi neapliecina sūtīšanu uz reālu klienta adresi. Dzīvā sūtīšana ar `lead.psybele.com` ir atsevišķi pārbaudīta zemāk.
 
-Pievienota atsevišķa klienta apstiprinājuma fāze, kas sākas pirms AI pabeigšanas un saglabā savu kļūdu, laiku un Resend ziņas ID. Apstiprinājumā nav AI vērtējuma, komandas piezīmju, PIN vai inbox saites. Migrācija vecajiem līdiem atstāj fāzi izslēgtu. Veiksmīgu sūtījumu neatkārto; ir 3 mēģinājumu stundā limits vienai adresei.
+## Apgrozījuma un pirkšanas gatavības nošķiršana
 
-47 automātiskie testi, TypeScript un build iziet. Faktiskā Workers izpildvides pārbaude aptver atsevišķus klienta un pārdevēja sūtījumus ar simulētu Resend. Pašreizējais `resend.dev` sūtītājs ir piemērots tikai paša Resend konta adresei; sūtīšanai uz citu klienta adresi jāpabeidz domēna verifikācija. Vispārējā klientu piegāde nav apliecināta.
+AI instrukcija skaidri atdala mēneša apgrozījumu no projekta budžeta. Uzņēmuma apgrozījums virs 100 000 € pats par sevi nenosaka Karsts. Testa mērķis bez biznesa intereses ir Auksts; ticama, bet vēl vispārīga biznesa interese ir Silts; konkrēta vajadzība ar gatavību sākt ir Karsts. Vārds Tests tikai uzņēmuma nosaukumā neatceļ reālu biznesa mērķi. Inbox un detaļās ir atsevišķa lielā apgrozījuma atzīme. Iepriekšējos AI vērtējumus automātiski nepārraksta.
+
+## Telegram grupas pieslēguma labojums
+
+Grupas pārveidošana par supergrupu maina tās Chat ID. Paziņojumu sūtītājs apstrādā Telegram `parameters.migrate_to_chat_id`: atkārto tikai noraidīto pieprasījumu, ne vairāk kā vienu reizi un kopējā 7 sekunžu taimautā. Pēc pieņemšanas saglabā jauno ID un čata nosaukumu. Saglabāšana nepārraksta citā cilnē tikmēr nomainītu tokenu vai grupu. Paziņojumu fāze jau pieņemtu līda ziņu atkārtoti nesūta.
+
+Grupu atrašana apskata arī bota dalības izmaiņas, izfiltrē privātus čatus un migrētos vecos ID. Tā ir pieslēgšanas darbība; ikdienā redzama izvēlētā grupa un testa poga. Pārbaudes pogas pašas saglabā tikai savu sadaļu, tāpēc nepabeigts e-pasts vai AI modelis nebloķē Telegram. Veiksmīgā testa un kļūdas teksts parādās blakus pogām. Telegram API pieņemšana pati par sevi neapliecina ziņas izlasīšanu.
+
+Astoņi papildu automātiskie testi aptver daļēju iestatījumu saglabāšanu, grupu migrāciju un veco ID izfiltrēšanu, neatkārtotu piegādi, vienlaicīgu galamērķa maiņu, atļauju un webhook kļūdu skaidrošanu, atkārtojumu robežu un pārbaudes stāvokļa atiestatīšanu. Pārlūkā ar izolētiem testa datiem pārbaudītas sākotnēji pieejamas pogas, grupas izvēles automātiska saglabāšana, Telegram tests ar nepabeigtiem citu sadaļu laukiem un 390 px ietvars bez horizontālas pārplūdes. Pagaidu QA lapas pirms publicēšanas izņemtas.
+
+![Izolēta saskarnes pārbaude telefona platumā; QA Sales ir testa dati](telegram-mobile-v13.jpg)
+
+## Mobilā sānu izvēlne
+
+Telefonā galvenes poga “Izvēlne” atver modālu sānu paneli ar to pašu navigāciju kā datorā. Statusi un to skaitītāji abos skatos izmanto kopīgu komponenti. Pārlūka izolētā 390 px pārbaudē izvēlēts “Jauns” un pārbaudīts, ka sarakstā paliek pareizais ieraksts; atvērti savienojumi, pārbaudīta aizvēršanās pēc izvēles, Escape un pieskāriena ārpus paneļa. Pārbaudīts arī fokuss izvēlnē, fona ritināšanas bloķēšana un atjaunošana. Datora skatā sānu panelis paliek redzams un statusa filtrs darbojas. Testiem izmantoti izdomāti dati; pagaidu QA lapas pirms publicēšanas izņemtas.
+
+![Mobilās izvēlnes pārbaude ar izdomātiem QA ierakstiem](mobile-inbox-menu-v14.jpg)
+
+## Gala pārbaude pirms nodošanas — 2026. gada 19. novembris
+
+Ar publisko Vercel API iesniegts marķēts QA pieteikums `721a07ac-95c6-469d-8d20-e7b58dab3c76`. Uzņēmuma dati ir izdomāti, klienta saņēmējs ir Resend paredzētā testa adrese `delivered@resend.dev`. Pēc pārbaudes līds atzīmēts “Nav aktuāls” un pievienota piezīme nesazināties.
+
+| Fāze | Reāla servisa rezultāts |
+| --- | --- |
+| AI | Groq pabeidza vērtējumu; tehnisks tests novērtēts “Auksts”. |
+| Telegram | Ziņa pieņemta izvēlētajā grupā 1,046 s pēc līda saglabāšanas. |
+| Pārdevēja e-pasts | Resend pieņēma atsevišķu komandas paziņojumu. |
+| Klienta apstiprinājums | Resend pieņēma atsevišķu apstiprinājumu 0,427 s pēc saglabāšanas; sūtītāja domēns `lead.psybele.com`. |
+
+Klienta fāzei saglabāts atsevišķs Resend ziņas ID un `sent` stāvoklis. Šie laiki ir viena testa novērojumi, nevis SLA; API pieņemšana neapliecina nonākšanu cilvēka iesūtnē vai izlasīšanu. Agrākā QA adreses `example.com` sūtījuma kļūda netiek uzdota par veiksmīgu piegādi; jaunā pārbaude izmanto paredzētu testa saņēmēju.
