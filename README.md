@@ -6,7 +6,7 @@ Latviešu valodā veidots praktiskā atlases uzdevuma risinājums. Autors: **Mā
 
 **[Lejupielādēt pilnu projekta pirmkodu](lead-inbox-source.zip)** — arhīvā ir visa lietotne, servera API, datubāzes migrācijas, testu faili un VS Code uzdevumi. Izpakojot veidojas mape `lead-inbox`. Šajā repozitorijā pirmkods tiek nodots kā pilns ZIP arhīvs.
 
-Arhīvs atbilst publicētās vietnes 9. versijas pirmkodam (`6fd429571f80cfb7c58b61af3f38459e9e385203`). Privātie pieteikumi, PIN, sesijas un API atslēgas arhīvā nav iekļautas.
+Arhīvs atbilst publicētās vietnes 10. versijas pirmkodam (`e912ee9188b6ed5a65b8f83e42ad7579c556443a`). Privātie pieteikumi, PIN, sesijas un API atslēgas arhīvā nav iekļautas.
 
 ## Dzīvā demonstrācija
 
@@ -27,6 +27,7 @@ PIN vērtētājs saņem atsevišķi. Publiskā forma ir tikai sākums; demonstr�
 | Statusi | Jauns, Piezvanīts, Tikšanās norunāta, Nav aktuāls; saglabātas piezīmes. |
 | AI vērtējums | Groq API: Karsts/Silts/Auksts, iemesls un sarunas sākums. |
 | Paziņojumi | Telegram un papildus Resend e-pasts; atsevišķi apstrādes stāvokļi un atkārtošana. |
+| Klienta apstiprinājums | Atsevišķa Resend ziņa ar pieteikuma numuru, savs statuss un atkārtošana. Visiem klientiem vajadzīgs apstiprināts sūtītāja domēns; pašreizējais testa sūtītājs atļauj tikai konta adresi. |
 | Bonusi | Zvanīt ar `tel:`, numura kopēšana, līda vecums, meklēšana, filtri un prioritātes. |
 
 2026. gada 19. novembrī publiskajā Vercel formā iesniegts atzīmēts QA pieteikums. AI vērtējums saglabāts **0,431 s**, Telegram ziņa pieņemta **0,625 s** un e-pasts pieņemts **0,654 s** pēc līda izveides serverī. Līds ir pirmais inbox; statusi un piezīmes saglabājās atsevišķās atkārtotās nolasīšanās. QA līds pēc pārbaudes atzīmēts `Nav aktuāls`.
@@ -68,7 +69,7 @@ npm run check
 npm run build
 ```
 
-Pārbaudītajam risinājumam iziet 41 automātiskie testi, TypeScript un produkcijas build. Ārējie servisi automātiskajos testos ir simulēti; īsto atslēgu pārbaude ir aprakstīta atsevišķi.
+Pārbaudītajam risinājumam iziet 47 automātiskie testi, TypeScript un produkcijas build. Ārējie servisi automātiskajos testos ir simulēti; īsto atslēgu pārbaude ir aprakstīta atsevišķi.
 
 ## Tehnoloģijas un izvēles
 
@@ -77,3 +78,9 @@ React, TypeScript, Vinext, Cloudflare Workers/D1, Groq Chat Completions, Telegra
 Publiskā adrese ir **Vercel**. Vercel piegādā lapas un Node.js API vārteju; noturīgie dati, PIN sesijas, šifrētie integrāciju iestatījumi un fona apstrāde paliek esošajā Cloudflare Worker/D1 serverī. Tas ir kopīgs risinājums, nevis pilna datubāzes migrācija uz Vercel. API vārteja izmanto HMAC parakstītu kontekstu, saglabā katra klienta PIN mēģinājumu limitu un privātas atbildes nekešo. Paziņojumu saites ved uz Vercel inbox. Esošajam serverim jāpaliek publicētam. Vercel paketi sagatavo ar `npm run package:vercel`; detaļas ir arhīva `docs/VERCEL.md`. GitHub kodu glabā atsevišķi; tā izmaiņas automātiski nemaina publicēto vietni.
 
 Groq Free kvotai ir lietošanas limiti. Resend testa sūtītājs sūta uz Resend konta adresi; sūtīšanai uz citām adresēm vajag apstiprināt savu domēnu. Demonstrācijā izmantots kopīgs komandas PIN; plašākai lietošanai vajag individuālus lietotājus un administratora lomu.
+
+## Labojumi no VS Code
+
+Klonējot un izpakojot arhīvu, strādā iekšējā `lead-inbox` mapē. Repo ārējā mapē `git add lead-inbox`, commit un push pievienos avotu kā parastu izpakotu apakšmapi, lai turpmāk Git redzētu failu izmaiņas. Saglabā projekta `.gitignore`, un Git nepievieno `.dev.vars`, atslēgas vai lokālo datubāzi. GitHub push pats nemaina publisko Vercel/Cloudflare versiju.
+
+Jaunās klienta apstiprinājuma detaļas ir arhīva `docs/CUSTOMER_CONFIRMATION.md`. Ziņa neietver AI vērtējumu vai komandas piekļuvi. Vecajiem līdiem apstiprinājumus neaktivizē. Testi aptver klienta un pārdevēja atsevišķos saņēmējus, kļūmju atkārtošanu, idempotenci, vēsturiskos līdus un kvotu; Workers testā pilna apstrāde darbojas ar simulētu Resend.

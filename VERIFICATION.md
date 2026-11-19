@@ -41,7 +41,7 @@ E-pasta iestatījumi tika saglabāti jau pēc šā testa līda iesniegšanas. P�
 
 ## Automātiskā pārbaude
 
-Pārbaudītajam risinājumam iziet 41 testi, TypeScript pārbaude un produkcijas build. Komandas:
+Pārbaudītajam risinājumam iziet 47 testi, TypeScript pārbaude un produkcijas build. Komandas:
 
 ```bash
 npm test
@@ -66,3 +66,9 @@ Publiskā adrese ir Vercel, bet noturīgie dati un ārējā apstrāde ir esošaj
 ## Pilnā Vercel pārbaude pēc publicēšanas
 
 Jauns QA līds iesniegts publiskajā Vercel formā: `737bedf5-c282-4f3f-8305-a2bca911320e` (`QA Vercel nodošana`). AI `Karsts` saglabāts 431 ms pēc izveides serverī, Telegram pieņēma ziņu 625 ms un Resend e-pastu 654 ms pēc izveides. Servera inbox atgrieza šo līdu kā jaunāko; pēc atsevišķām izmaiņām atkārtoti nolasīti visi 4 statusi un saglabāta piezīme. Pēc pārbaudes QA līds atzīmēts `Nav aktuāls`. Jaunā Vercel adrese atveras bez Vercel/ChatGPT konta; privātais inbox prasa lietotnes PIN. Servisu pieņemšanas laiki nav pierādījums ziņas izlasīšanai vai e-pasta nonākšanai iesūtnē.
+
+## Klienta apstiprinājuma papildinājums — versija 10
+
+Pievienota atsevišķa klienta apstiprinājuma fāze, kas sākas pirms AI pabeigšanas un saglabā savu kļūdu, laiku un Resend ziņas ID. Apstiprinājumā nav AI vērtējuma, komandas piezīmju, PIN vai inbox saites. Migrācija vecajiem līdiem atstāj fāzi izslēgtu. Veiksmīgu sūtījumu neatkārto; ir 3 mēģinājumu stundā limits vienai adresei.
+
+47 automātiskie testi, TypeScript un build iziet. Faktiskā Workers izpildvides pārbaude aptver atsevišķus klienta un pārdevēja sūtījumus ar simulētu Resend. Pašreizējais `resend.dev` sūtītājs ir piemērots tikai paša Resend konta adresei; sūtīšanai uz citu klienta adresi jāpabeidz domēna verifikācija. Vispārējā klientu piegāde nav apliecināta.
