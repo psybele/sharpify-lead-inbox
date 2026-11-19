@@ -6,14 +6,14 @@ Latviešu valodā veidots praktiskā atlases uzdevuma risinājums. Autors: **Mā
 
 **[Lejupielādēt pilnu projekta pirmkodu](lead-inbox-source.zip)** — arhīvā ir visa lietotne, servera API, datubāzes migrācijas, testu faili un VS Code uzdevumi. Izpakojot veidojas mape `lead-inbox`. Šajā repozitorijā pirmkods tiek nodots kā pilns ZIP arhīvs.
 
-Arhīvs atbilst publicētās vietnes 7. versijas pirmkodam (`bda641fdcefe4c91c1a95a0fcb9d055fb872f152`). Privātie pieteikumi, PIN, sesijas un API atslēgas arhīvā nav iekļautas.
+Arhīvs atbilst publicētās vietnes 9. versijas pirmkodam (`6fd429571f80cfb7c58b61af3f38459e9e385203`). Privātie pieteikumi, PIN, sesijas un API atslēgas arhīvā nav iekļautas.
 
 ## Dzīvā demonstrācija
 
-- [Pārdevēja demonstrācija un reālais savienojumu statuss](https://lead-inbox-sharpify.marcis98000.chatgpt.site/demo)
-- [Publiskā pieteikuma forma](https://lead-inbox-sharpify.marcis98000.chatgpt.site/)
-- [PIN aizsargāts inbox](https://lead-inbox-sharpify.marcis98000.chatgpt.site/inbox)
-- [Pirmkoda lejupielāde no vietnes](https://lead-inbox-sharpify.marcis98000.chatgpt.site/kods)
+- [Pārdevēja demonstrācija un reālais savienojumu statuss](https://sharpify-lead-inbox-psybele.vercel.app/demo)
+- [Publiskā pieteikuma forma](https://sharpify-lead-inbox-psybele.vercel.app/)
+- [PIN aizsargāts inbox](https://sharpify-lead-inbox-psybele.vercel.app/inbox)
+- [Pirmkoda lejupielāde no vietnes](https://sharpify-lead-inbox-psybele.vercel.app/kods)
 
 PIN vērtētājs saņem atsevišķi. Publiskā forma ir tikai sākums; demonstrāciju sāc pārdevēja inbox un formu atver otrā cilnē.
 
@@ -29,7 +29,7 @@ PIN vērtētājs saņem atsevišķi. Publiskā forma ir tikai sākums; demonstr�
 | Paziņojumi | Telegram un papildus Resend e-pasts; atsevišķi apstrādes stāvokļi un atkārtošana. |
 | Bonusi | Zvanīt ar `tel:`, numura kopēšana, līda vecums, meklēšana, filtri un prioritātes. |
 
-2026. gada 19. novembra dzīvajā testā AI vērtējums saglabāts **0,813 s** pēc līda izveides, Telegram ziņa pieņemta **1,225 s** pēc izveides. Statusi un piezīmes saglabājās atsevišķās atkārtotās nolasīšanās. Pēc e-pasta pieslēgšanas Resend pieņēma šā paša testa līda e-pasta paziņojumu.
+2026. gada 19. novembrī publiskajā Vercel formā iesniegts atzīmēts QA pieteikums. AI vērtējums saglabāts **0,431 s**, Telegram ziņa pieņemta **0,625 s** un e-pasts pieņemts **0,654 s** pēc līda izveides serverī. Līds ir pirmais inbox; statusi un piezīmes saglabājās atsevišķās atkārtotās nolasīšanās. QA līds pēc pārbaudes atzīmēts `Nav aktuāls`.
 
 Tā ir viena sekmīga testa pārbaude, nevis pieejamības garantija. Servisa pieņemšana nav ziņas izlasīšanas vai e-pasta iesūtnes piegādes apliecinājums. Skatīt [pilnu pārbaudes aprakstu un zināmās robežas](VERIFICATION.md).
 
@@ -68,12 +68,12 @@ npm run check
 npm run build
 ```
 
-Pārbaudītajam risinājumam iziet 34 automātiskie testi, TypeScript un produkcijas build. Ārējie servisi automātiskajos testos ir simulēti; īsto atslēgu pārbaude ir aprakstīta atsevišķi.
+Pārbaudītajam risinājumam iziet 41 automātiskie testi, TypeScript un produkcijas build. Ārējie servisi automātiskajos testos ir simulēti; īsto atslēgu pārbaude ir aprakstīta atsevišķi.
 
 ## Tehnoloģijas un izvēles
 
 React, TypeScript, Vinext, Cloudflare Workers/D1, Groq Chat Completions, Telegram Bot API un Resend. Groq modelis `openai/gpt-oss-20b` tiek darbināts Groq; tam izmanto Groq atslēgu. Nav automātiskas pārslēgšanās uz maksas OpenAI.
 
-Vercel, Netlify vai Supabase šai demonstrācijai nav nepieciešami: hostings un datubāze jau darbojas. GitHub kodu glabā atsevišķi; tā izmaiņas automātiski nemaina publicēto vietni.
+Publiskā adrese ir **Vercel**. Vercel piegādā lapas un Node.js API vārteju; noturīgie dati, PIN sesijas, šifrētie integrāciju iestatījumi un fona apstrāde paliek esošajā Cloudflare Worker/D1 serverī. Tas ir kopīgs risinājums, nevis pilna datubāzes migrācija uz Vercel. API vārteja izmanto HMAC parakstītu kontekstu, saglabā katra klienta PIN mēģinājumu limitu un privātas atbildes nekešo. Paziņojumu saites ved uz Vercel inbox. Esošajam serverim jāpaliek publicētam. Vercel paketi sagatavo ar `npm run package:vercel`; detaļas ir arhīva `docs/VERCEL.md`. GitHub kodu glabā atsevišķi; tā izmaiņas automātiski nemaina publicēto vietni.
 
 Groq Free kvotai ir lietošanas limiti. Resend testa sūtītājs sūta uz Resend konta adresi; sūtīšanai uz citām adresēm vajag apstiprināt savu domēnu. Demonstrācijā izmantots kopīgs komandas PIN; plašākai lietošanai vajag individuālus lietotājus un administratora lomu.

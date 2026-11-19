@@ -1,13 +1,13 @@
 # Sharpify Lead Inbox — prasības un pārbaude
 
-Izstrādāja Mārcis Sidorčiks ar AI palīdzību. Dzīvā pārbaude veikta 2026. gada 19. novembrī.
+Izstrādāja Mārcis Sidorčiks ar AI palīdzību. Dzīvā pārbaude veikta 2026. gada 19. novembrī. Zemāk norādītie 0,813/1,225 sekunžu mērījumi veikti esošajā serverī pirms Vercel vārtejas pievienošanas; tie nav atsevišķs Vercel ātruma mērījums.
 
 ## Publiskās saites
 
-- [Pārdevēja demonstrācija un aktuālais servera statuss](https://lead-inbox-sharpify.marcis98000.chatgpt.site/demo)
-- [Pieteikuma forma](https://lead-inbox-sharpify.marcis98000.chatgpt.site/)
-- [PIN aizsargāts inbox](https://lead-inbox-sharpify.marcis98000.chatgpt.site/inbox)
-- [Pirmkoda lejupielāde](https://lead-inbox-sharpify.marcis98000.chatgpt.site/kods)
+- [Pārdevēja demonstrācija un aktuālais servera statuss](https://sharpify-lead-inbox-psybele.vercel.app/demo)
+- [Pieteikuma forma](https://sharpify-lead-inbox-psybele.vercel.app/)
+- [PIN aizsargāts inbox](https://sharpify-lead-inbox-psybele.vercel.app/inbox)
+- [Pirmkoda lejupielāde](https://sharpify-lead-inbox-psybele.vercel.app/kods)
 
 PIN vērtētājs saņem atsevišķi. API atslēgas, sesijas un pieteikumu datubāze pirmkodā nav iekļautas.
 
@@ -41,7 +41,7 @@ E-pasta iestatījumi tika saglabāti jau pēc šā testa līda iesniegšanas. P�
 
 ## Automātiskā pārbaude
 
-Pārbaudītajam risinājumam iziet 34 testi, TypeScript pārbaude un produkcijas build. Komandas:
+Pārbaudītajam risinājumam iziet 41 testi, TypeScript pārbaude un produkcijas build. Komandas:
 
 ```bash
 npm test
@@ -58,3 +58,11 @@ Testi ietver autorizāciju, PIN minēšanas limitu, saglabāšanu, statusus un p
 - Ārējo servisu darbība un e-pasta piegāde nav garantēta. Kļūmes ir redzamas, līds paliek saglabāts un apstrādi var atkārtot.
 - Fonā izmanto Worker `waitUntil`, bez atsevišķas pastāvīgas darbu rindas. Pārtrauktu `pending` apstrādi atjauno inbox nolasīšana; kļūmi atkārto no detaļām.
 - Dzīvie privātie pieteikumi un atslēgas netiek pārnesti uz GitHub vai lokālo vidi.
+
+## Vercel vārteja
+
+Publiskā adrese ir Vercel, bet noturīgie dati un ārējā apstrāde ir esošajā Cloudflare serverī. API vārteja saglabā HttpOnly sesijas cookie, bloķē citas izcelsmes rakstīšanas pieprasījumus, neļauj patvaļīgu pārsūtīšanas galamērķi, ierobežo saturu un nekešo privātas atbildes. Ar HMAC parakstītais konteksts ir piesaistīts konkrētam pieprasījumam; Worker ignorētam vai viltotam parakstam neuzticas. Papildu testi pārbauda atsevišķus PIN limitus klientiem un Vercel adresi paziņojumos. Parakstīta pierakstīšanās papildus pārbaudīta īstajā Workers izpildvidē.
+
+## Pilnā Vercel pārbaude pēc publicēšanas
+
+Jauns QA līds iesniegts publiskajā Vercel formā: `737bedf5-c282-4f3f-8305-a2bca911320e` (`QA Vercel nodošana`). AI `Karsts` saglabāts 431 ms pēc izveides serverī, Telegram pieņēma ziņu 625 ms un Resend e-pastu 654 ms pēc izveides. Servera inbox atgrieza šo līdu kā jaunāko; pēc atsevišķām izmaiņām atkārtoti nolasīti visi 4 statusi un saglabāta piezīme. Pēc pārbaudes QA līds atzīmēts `Nav aktuāls`. Jaunā Vercel adrese atveras bez Vercel/ChatGPT konta; privātais inbox prasa lietotnes PIN. Servisu pieņemšanas laiki nav pierādījums ziņas izlasīšanai vai e-pasta nonākšanai iesūtnē.
